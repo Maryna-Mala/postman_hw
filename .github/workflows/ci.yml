@@ -33,6 +33,6 @@ jobs:
         working-directory: api-tests/
 
       - name: Run Tests
-        run: npm run ci -- --env-var "api_key=${{ secrets.API_KEY }}" --env-var "token=${{ secrets.API_TOKEN }}"
+        run: npm run ci -- --env-var "api_key=${{ secrets.TRELLO_API_KEY }}" --env-var "token=${{ secrets.TRELLO_API_TOKEN }}"
         working-directory: api-tests/
-        
+
