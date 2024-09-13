@@ -4,8 +4,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "run-api-tests": "npx newman run tests/postman/*collection.json -e tests/postman/*environment.json",
-    "setup-env": "node scripts/setup-environment.js"
+    "local": "npx newman run tests/postman/*collection.json -e tests/postman/*environment.json",
+    "ci": "npx newman run tests/postman/*collection.json"
   },
   "author": "Maryna Mala",
   "license": "ISC",
