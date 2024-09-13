@@ -32,7 +32,7 @@ To set up the Cypress testing environment for this project, follow these steps:
 
 4. **Set Up your environment**
 
-    Open Trello and copy your own API key and token and change the board ID to yours in the `tests/postman/postman_collection.json`
+    Open Trello and copy your own [API key and token](https://www.merge.dev/blog/trello-api-key) and change the board ID to yours in the `tests/postman/postman_collection.json`
 
 ## How to run
 
