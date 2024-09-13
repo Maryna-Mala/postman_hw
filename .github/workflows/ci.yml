@@ -35,3 +35,4 @@ jobs:
       - name: Run Tests
         run: npm run ci -- --env-var "api_key=${{ secrets.API_KEY }}" --env-var "token=${{ secrets.API_TOKEN }}"
         working-directory: api-tests/
+        
