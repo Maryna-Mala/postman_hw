@@ -1,0 +1,15 @@
+{
+  "name": "postman_hw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "run-api-tests": "npx newman run tests/postman/*collection.json -e tests/postman/*environment.json",
+    "setup-env": "node scripts/setup-environment.js"
+  },
+  "author": "Maryna Mala",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "newman": "^6.2.1"
+  }
+}
