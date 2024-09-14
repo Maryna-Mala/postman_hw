@@ -1,7 +1,3 @@
-# api-test-postman
-
-API Test Postman
-
 # Postman Testing API for [Trello](https://trello.com/)
 
 ## About the Tool
@@ -9,6 +5,15 @@ API Test Postman
 This project is a test automation suite developed using [Postman](https://www.postman.com/) for the [Trello](https://trello.com/) website. The tool is designed to automate the testing of various functionalities on the Trello platform, ensuring a smooth and error-free user experience.
 
 Postman is an API platform for building and using APIs. Postman simplifies each step of the API lifecycle and streamlines collaboration so you can create better APIs—faster.
+
+## Test description
+
+These 4 test scenarios are created with Postman API tool. According to the [Trello API](https://developer.atlassian.com/cloud/trello/rest) implemented the following test scenarios:
+1. Create a board
+2. Get a board
+3. Update the board's description
+4. Delete the board
+Also, added assertions for headers, status code and body of response. Added script into package.json to run API tests through the CLI (using Newman tool).
 
 ## How to Setup
 
@@ -32,7 +37,8 @@ To set up the Cypress testing environment for this project, follow these steps:
 
 4. **Set Up your environment**
 
-    Open Trello and copy your own [API key and token](https://www.merge.dev/blog/trello-api-key) and change the board ID to yours in the `tests/postman/postman_collection.json`
+    1. Open Trello and copy your own [API key and token](https://www.merge.dev/blog/trello-api-key) 
+    2. Add your API key and token values in the `tests/postman/environment.json`
 
 ## How to run
 
