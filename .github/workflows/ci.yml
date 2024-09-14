@@ -12,6 +12,9 @@ on:
 jobs:
   api-test:
     runs-on: ubuntu-latest
+    env:
+      TRELLO_BOARD_NAME: 'Test Github board'
+      TRELLO_BOARD_DESC: 'Created by API with Postman/Newman in Github actions'
 
     strategy:
       fail-fast: false
@@ -19,7 +22,6 @@ jobs:
         node-version: [18]
 
     steps:
-    
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -33,6 +35,10 @@ jobs:
         working-directory: api-tests/
 
       - name: Run Tests
-        run: npm run ci -- --env-var "api_key=${{ secrets.TRELLO_API_KEY }}" --env-var "token=${{ secrets.TRELLO_API_TOKEN }}"
+        run: |
+          npm run ci -- \
+          --env-var "api_key=${{ secrets.TRELLO_API_KEY }}" \
+          --env-var "token=${{ secrets.TRELLO_API_TOKEN }}" \
+          --env-var "name=${{ env.TRELLO_BOARD_NAME }}" \
+          --env-var "description=${{ env.TRELLO_BOARD_DESC }}"
         working-directory: api-tests/
-

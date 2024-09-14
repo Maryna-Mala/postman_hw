@@ -8,6 +8,81 @@
 	},
 	"item": [
 		{
+			"name": "Create a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"board_id\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Content-Type is present and correct\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"pm.test(\"Create new board\", function () {",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get('name'));",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/?name={{name}}&key={{api_key}}&token={{token}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{name}}"
+						},
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get a Board",
 			"event": [
 				{
@@ -22,7 +97,7 @@
 							"});",
 							"pm.test(\"Board has correct name\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"Board for Search\");",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get('name'));",
 							"});"
 						],
 						"type": "text/javascript",
@@ -57,7 +132,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://api.trello.com/1/boards/csUiquGw?key={{api_key}}&token={{token}}&name=Board for Search",
+					"raw": "https://api.trello.com/1/boards/{{board_id}}?key={{api_key}}&token={{token}}&name={{name}}",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -67,7 +142,7 @@
 					"path": [
 						"1",
 						"boards",
-						"csUiquGw"
+						"{{board_id}}"
 					],
 					"query": [
 						{
@@ -80,7 +155,7 @@
 						},
 						{
 							"key": "name",
-							"value": "Board for Search"
+							"value": "{{name}}"
 						}
 					]
 				}
@@ -88,7 +163,7 @@
 			"response": []
 		},
 		{
-			"name": "Update a Board",
+			"name": "Update Board Description",
 			"event": [
 				{
 					"listen": "test",
@@ -102,7 +177,7 @@
 							"});",
 							"pm.test(\"Board name is updated\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"New Board Name\");",
+							"    pm.expect(jsonData.desc).to.eql(pm.environment.get('description'));;",
 							"});"
 						],
 						"type": "text/javascript",
@@ -114,7 +189,7 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "https://api.trello.com/1/boards/T60ngqJL?key={{api_key}}&token={{token}}&name=New Board Name",
+					"raw": "https://api.trello.com/1/boards/{{board_id}}?key={{api_key}}&token={{token}}&desc={{description}}",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -124,7 +199,7 @@
 					"path": [
 						"1",
 						"boards",
-						"T60ngqJL"
+						"{{board_id}}"
 					],
 					"query": [
 						{
@@ -136,8 +211,8 @@
 							"value": "{{token}}"
 						},
 						{
-							"key": "name",
-							"value": "New Board Name"
+							"key": "desc",
+							"value": "{{description}}"
 						}
 					]
 				}
@@ -151,8 +226,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Response time is less than 3000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript",
@@ -164,7 +239,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://api.trello.com/1/boards/PmDc4zzA?key={{api_key}}&token={{token}}",
+					"raw": "https://api.trello.com/1/boards/{{board_id}}?key={{api_key}}&token={{token}}",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -174,7 +249,7 @@
 					"path": [
 						"1",
 						"boards",
-						"PmDc4zzA"
+						"{{board_id}}"
 					],
 					"query": [
 						{
@@ -189,69 +264,12 @@
 				}
 			},
 			"response": []
-		},
+		}
+	],
+	"variable": [
 		{
-			"name": "Create a List on a Board",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"Content-Type is present and correct\", function () {",
-							"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
-							"});",
-							"pm.test(\"Create new list name\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"New List Name\");",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "https://api.trello.com/1/boards/fIVN8rKu/lists?name=New List Name&key={{api_key}}&token={{token}}",
-					"protocol": "https",
-					"host": [
-						"api",
-						"trello",
-						"com"
-					],
-					"path": [
-						"1",
-						"boards",
-						"fIVN8rKu",
-						"lists"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "New List Name"
-						},
-						{
-							"key": "key",
-							"value": "{{api_key}}"
-						},
-						{
-							"key": "token",
-							"value": "{{token}}"
-						}
-					]
-				}
-			},
-			"response": []
+			"key": "board_id",
+			"value": ""
 		}
 	]
 }
