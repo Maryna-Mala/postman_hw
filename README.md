@@ -13,6 +13,7 @@ These 4 test scenarios are created with Postman API tool. According to the [Trel
 2. Get a board
 3. Update the board's description
 4. Delete the board
+   
 Also, added assertions for headers, status code and body of response. Added script into package.json to run API tests through the CLI (using Newman tool).
 
 ## How to Setup
