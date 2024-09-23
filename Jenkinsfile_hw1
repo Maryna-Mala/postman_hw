@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+     
+    environment {
+        PATH = "/Users/marynamala/.yarn/bin:/Users/marynamala/.config/yarn/global/node_modules/.bin:/Users/marynamala/.nvm/versions/node/v20.17.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/marynamala/.nvm/versions/node/v20.17.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Maryna-Mala/postman_hw.git'
+
+                dir('api-tests') {
+                    sh 'node -v'
+                    sh "npm install"
+                withCredentials([string(credentialsId: 'TRELLO_API_KEY', variable: 'TRELLO_API_KEY'), string(credentialsId: 'TRELLO_API_TOKEN', variable: 'TRELLO_API_TOKEN')]) {
+                    sh '''
+                    npm run ci -- \
+                --env-var "api_key=$TRELLO_API_KEY" \
+                --env-var "token=$TRELLO_API_TOKEN" \
+                --env-var "name=TestBoard" \
+                --env-var "description=API created with Postman"
+                    '''
+                }
+                
+                }
+            }
+        }
+    }
+}
